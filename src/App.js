@@ -1,31 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-class App extends React.PureComponent {
-    divRef = undefined
-    constructor(props) {
-        super(props);
-        this.state = {
-            n: 1,
-            width:undefined
-        };
-        this.divRef = React.createRef()
+const App =props=>{
+    const [n,setN] = useState(0)
+    const onClick = ()=>{
+        setN(n+1)
     }
-
-    onClick = () => {
-        this.setState(state => ({n: state.n + 1}))
-    }
-    componentDidMount() {
-        const div=this.divRef.current
-        console.log(div);
-        const {width} =div.getBoundingClientRect()
-        this.setState({width})
-    }
-
-    render() {
-        return(
-            <div ref={this.divRef}>Hello World,{this.state.width}px</div>
-        )
-    }
+    useEffect(()=>{
+        console.log('第一次渲染')
+    },[])
+    return(
+        <div>
+            {n}
+            <button onClick={onClick}>+1</button>
+        </div>
+    )
 }
 
 export default App;
