@@ -5,16 +5,23 @@ class App extends React.PureComponent {
         super(props);
         this.state = {
             n: 1,
-            array:[1,2,3]
+            width:undefined
         }
     }
 
     onClick = () => {
         this.setState(state => ({n: state.n + 1}))
     }
+    componentDidMount() {
+        const div = document.getElementById('xxx')
+        const {width} = div.getBoundingClientRect()
+        this.setState({width})
+    }
 
     render() {
-        return this.state.array.map(n=><span>{n}</span>)
+        return(
+            <div id="xxx">Hello World,{this.state.width}px</div>
+        )
     }
 }
 
