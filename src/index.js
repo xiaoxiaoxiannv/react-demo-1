@@ -1,39 +1,22 @@
-import React, { createContext, useState, useContext } from "react";
+import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom";
 
-const C = createContext(null);
-
 function App() {
-    console.log("App 执行了");
-    const [n, setN] = useState(0);
+    const [n,setN] =useState(0)
+    const onClick = ()=>{
+        setN(i=>i+1)
+    }
+   useEffect(()=>{
+       console.log('第一次渲染之后执行这一句话')
+   },[])
+    useEffect(()=>{
+        console.log('n变化了')
+    },[n])
     return (
-        <C.Provider value={{ n, setN }}>
-            <div className="App">
-                <Baba />
+            <div>
+                n:{n}
+                <button onClick={onClick}>+1</button>
             </div>
-        </C.Provider>
-    );
-}
-
-function Baba() {
-    const { n, setN } = useContext(C);
-    return (
-        <div>
-            我是爸爸 n: {n} <Child />
-        </div>
-    );
-}
-
-function Child() {
-    const { n, setN } = useContext(C);
-    const onClick = () => {
-        setN(i => i + 1);
-    };
-    return (
-        <div>
-            我是儿子 我得到的 n: {n}
-            <button onClick={onClick}>+1</button>
-        </div>
     );
 }
 
