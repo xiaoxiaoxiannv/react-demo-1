@@ -5,6 +5,7 @@ function App() {
     const [user,setUser] = useState({name:'Frank',age:18})
     const onClick = ()=>{
         setUser({
+            ...user,
             name: 'Jack'
         })
     };
