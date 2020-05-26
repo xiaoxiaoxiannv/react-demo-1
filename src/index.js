@@ -1,124 +1,41 @@
-import React, {createContext, useContext, useEffect, useReducer} from 'react';
-import ReactDOM from 'react-dom';
+import React, { createContext, useState, useContext } from "react";
+import ReactDOM from "react-dom";
 
-const store = {
-    user: null,
-    books: null,
-    movies: null
-}
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case'setUser':
-            return {...state, user: action.user}
-        case 'setBooks':
-            return {...state, books: action.books}
-        case 'setMovies':
-            return {...state, movies: action.movies}
-        default:
-            throw new Error()
-    }
-}
-
-const Context = createContext(null)
+const C = createContext(null);
 
 function App() {
-    const [state, dispatch] = useReducer(reducer, store)
+    console.log("App 执行了");
+    const [n, setN] = useState(0);
     return (
-        <Context.Provider value={{state, dispatch}}>
-            <User/>
-            <hr/>
-            <Books/>
-            <Movies/>
-        </Context.Provider>
-    )
+        <C.Provider value={{ n, setN }}>
+            <div className="App">
+                <Baba />
+            </div>
+        </C.Provider>
+    );
 }
 
-function User() {
-    const {state, dispatch} = useContext(Context)
-    useEffect(() => {
-        ajax("/user").then(user => {
-            dispatch({type: "setUser", user})
-        })
-    }, [])
+function Baba() {
+    const { n, setN } = useContext(C);
     return (
         <div>
-            <h1>个人信息</h1>
-            <div>name:{state.user ? state.user.name : ""}</div>
-        </div>
-    )
-}
-
-function Books() {
-    const {state, dispatch} = useContext(Context);
-    useEffect(() => {
-        ajax("/books").then(books => {
-            dispatch({type: "setBooks", books: books});
-        });
-    }, []);
-    return (
-        <div>
-            <h1>我的书籍</h1>
-            <ol>
-                {state.books ? state.books.map(book => <li key={book.id}>{book.name}</li>) : "加载中"}
-            </ol>
+            我是爸爸 n: {n} <Child />
         </div>
     );
 }
 
-function Movies() {
-    const {state, dispatch} = useContext(Context);
-    useEffect(() => {
-        ajax("/movies").then(movies => {
-            dispatch({type: "setMovies", movies: movies});
-        });
-    }, []);
+function Child() {
+    const { n, setN } = useContext(C);
+    const onClick = () => {
+        setN(i => i + 1);
+    };
     return (
         <div>
-            <h1>我的电影</h1>
-            <ol>
-                {state.movies
-                    ? state.movies.map(movie => <li key={movie.id}>{movie.name}</li>)
-                    : "加载中"}
-            </ol>
+            我是儿子 我得到的 n: {n}
+            <button onClick={onClick}>+1</button>
         </div>
-    )
+    );
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App/>, rootElement);
-
-function ajax(path) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (path === "/user") {
-                resolve({
-                    id: 1,
-                    name: "Frank"
-                });
-            } else if (path === "/books") {
-                resolve([
-                    {
-                        id: 1,
-                        name: "JavaScript 高级程序设计"
-                    },
-                    {
-                        id: 2,
-                        name: "JavaScript 精粹"
-                    }
-                ]);
-            } else if (path === "/movies") {
-                resolve([
-                    {
-                        id: 1,
-                        name: "爱在黎明破晓前"
-                    },
-                    {
-                        id: 2,
-                        name: "恋恋笔记本"
-                    }
-                ]);
-            }
-        }, 2000);
-    });
-}
+ReactDOM.render(<App />, rootElement);
