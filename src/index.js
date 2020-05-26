@@ -2,7 +2,7 @@ import React ,{useState} from 'react';
 import ReactDOM from 'react-dom';
 
 function App() {
-    const [user,setUser] = useState({name:'Frank',age:18})
+    const [user,setUser] = useState(()=>({name:'Frank',age:9+9}));
     const onClick = ()=>{
         setUser({
             ...user,
