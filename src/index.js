@@ -1,11 +1,22 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function App() {
+    const [user,setUser] = useState({name:'Frank',age:18})
+    const onClick = ()=>{
+        setUser({
+            name: 'Jack'
+        })
+    };
+    return(
+        <div className="App">
+            <h1>{user.name}</h1>
+            <h2>{user.age}</h2>
+            <button onClick={onClick}>Click</button>
+        </div>
+    )
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />,rootElement);
 
