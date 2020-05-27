@@ -1,16 +1,25 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, {useState, useLayoutEffect, useRef, useEffect} from "react";
 import ReactDOM from "react-dom";
 
-const App = () => {
-    const [value, setValue] = useState(0);
-    useLayoutEffect(() => {
-        document.querySelector('#x').innerText = `value: 1000`
-    }, [value]);
-
+function App() {
+    console.log('App执行了')
+    const count = useRef(0)
+    const [n, setN] = React.useState(0);
+    const onClick = () => {
+        setN(n + 1);
+    };
+    useEffect(()=>{
+        count.current +=1;
+        console.log(count.current)
+    });
     return (
-        <div id="x" onClick={() => setValue(0)}>value: {value}</div>
+        <div className="App">
+            <div>
+                <button onClick={onClick}>update n {n}</button>
+            </div>
+        </div>
     );
-};
+}
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
